@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Input from 'components/common/Input';
 import PasswordInput from 'components/common/PasswordInput';
 import Button from 'components/common/Button';
+import Spinner from 'components/common/Spinner';
 
 const Form = styled.form`
   width: 100%;
@@ -55,18 +56,24 @@ const Login = () => {
     <PageLayout>
       <h1>Login</h1>
       <Form onSubmit={handleSubmit}>
-        <Input
-          name="username"
-          placeholder="Username"
-          onChange={handleInputChange}
-          value={formFields.username}
-          type="text"
-        />
-        <PasswordInput
-          name="password"
-          onChange={handleInputChange}
-          value={formFields.password}
-        />
+        {loading ? (
+          <Spinner />
+        ) : (
+          <>
+            <Input
+              name="username"
+              placeholder="Username"
+              onChange={handleInputChange}
+              value={formFields.username}
+              type="text"
+            />
+            <PasswordInput
+              name="password"
+              onChange={handleInputChange}
+              value={formFields.password}
+            />
+          </>
+        )}
         <Button large type="submit" disabled={loading}>
           {loading ? 'Loading...' : 'Login'}
         </Button>
