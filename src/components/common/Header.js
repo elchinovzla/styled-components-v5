@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link as ReactRouterDomLink, useLocation } from 'react-router-dom';
 
 const HeaderWrapper = styled.header`
   height: 60px;
@@ -12,11 +12,43 @@ const HeaderWrapper = styled.header`
   background: #eee;
 `;
 
+const Menu = styled.nav`
+  display: flex;
+  position: relative;
+  width: initial;
+  border-bottom: none;
+  margin: auto 0 auto auto;
+  font-family: 'Open Sans';
+  background: none;
+  left: initial;
+  top: initial;
+`;
+
+const Link = ({ isActive, children, ...props }) => {
+  return <ReactRouterDomLink {...props}>{children}</ReactRouterDomLink>;
+};
+
+const StyledLink = styled(Link)`
+  padding: 4px 8px;
+  display: block;
+  text-align: center;
+  box-sizing: border-box;
+  margin: auto 0;
+  font-weight: ${(props) => (props.isActive ? 'bold' : 'normal')};
+`;
+
 const Header = () => {
+  const { pathname } = useLocation();
   return (
     <HeaderWrapper>
-      <Link to="/">Home</Link>
-      <Link to="/login">Login</Link>
+      <Menu>
+        <StyledLink to="/" isActive={pathname === '/'}>
+          Home
+        </StyledLink>
+        <StyledLink to="/login" isActive={pathname === '/login'}>
+          Login
+        </StyledLink>
+      </Menu>
     </HeaderWrapper>
   );
 };
