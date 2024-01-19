@@ -2,25 +2,33 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from 'components/pages/Home';
 import Login from 'components/pages/Login';
+import { darkTheme, lightTheme } from 'themes';
+import { useState } from 'react';
 
 const GlobalStyle = createGlobalStyle`
   body{
-    background: white;
+    background: ${(p) => p.theme.bodyBackgroundColor};
     min-height: 100vh;
     margin: 0;
-    color: black;
+    color: ${(p) => p.theme.bodyFontColor};
     font-family: 'Kaushan Script';
   }
 `;
 
-const theme = {
-  primaryColor: '#f8049c',
-  secondaryColor: '#fdd54f',
-};
-
 function App() {
+  const [theme, setTheme] = useState(lightTheme);
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider
+      theme={{
+        ...theme,
+        setTheme: () => {
+          setTheme((currentTheme) =>
+            currentTheme.id === 'light' ? darkTheme : lightTheme
+          );
+        },
+      }}
+    >
       <GlobalStyle />
       <BrowserRouter>
         <Routes>
